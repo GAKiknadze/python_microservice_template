@@ -1,4 +1,6 @@
-# Python Microservice Template
+# Python Microservice Template (DEV)
+
+**ALARM!!!** This project is under development and nothing is working here 👺
 
 Unified python microservice template
 
@@ -66,4 +68,12 @@ poe test -v tests/
 
 ```shell
 poe gen_proto protobufs/example.proto
+```
+
+### Cleanup project from Docker
+
+This command stops and deletes containers and deletes images related to this project.
+
+```shell
+poe docker_cleanup
 ```

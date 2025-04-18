@@ -15,5 +15,20 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
+# Tests
 test = "pytest --cov=app"
+# gRPC
 gen_proto = "grpc_tools.protoc -I protobufs/ --python_out=app/grpc/generated --grpc_python_out=app/grpc/generated"
+# Docker
+docker_cleanup = """
+    echo "Stopping project containers..."
+    docker ps -a | grep "example_service" | awk '{print $$1}' | xargs -r docker stop
+
+    echo "Removing project containers..."
+    docker ps -a | grep "example_service" | awk '{print $$1}' | xargs -r docker rm
+
+    echo "Removing project images..."
+    docker images | grep "example_service" | awk '{print $$3}' | xargs -r docker rmi
+
+    echo "Cleanup of project containers complete!"
+"""
