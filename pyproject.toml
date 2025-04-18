@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "python-microservice-template"
+version = "0.1.0"
+description = "Unified python microservice template"
+authors = ["GAKiknadze <gakiknadze@yandex.ru>"]
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks]
+test = "pytest --cov=app"
+gen_proto = "grpc_tools.protoc -I protobufs/ --python_out=app/grpc/generated --grpc_python_out=app/grpc/generated"
