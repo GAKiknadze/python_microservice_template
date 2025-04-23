@@ -8,27 +8,43 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pydantic = "^2.11.3"
+pydantic-settings = {extras = ["yaml"], version = "^2.9.1"}
+sqlalchemy = "^2.0.40"
+pyyaml = ">=6.0"
+asyncpg = "^0.30.0"
+aiosqlite = "^0.21.0"
+loguru = "^0.7.3"
 
+[tool.poetry.group.dev.dependencies]
+isort = "^6.0.1"
+black = "^25.1.0"
+flake8 = "^7.2.0"
+mypy = "^1.15.0"
+alembic = "^1.15.2"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
+pytest-asyncio = "^0.26.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
-# Tests
-test = "pytest --cov=app"
-# gRPC
+# Format
+isort = "isort ."
+black = "black ."
+format = ["isort", "black"]
+# Check
+mypy = "mypy ."
+flake = "flake8 ./src --max-line-length=127"
+check = ["mypy", "flake"]
+# Test
+test = "pytest --cov=src ./tests -v"
+# Proto
 gen_proto = "grpc_tools.protoc -I protobufs/ --python_out=app/grpc/generated --grpc_python_out=app/grpc/generated"
-# Docker
-docker_cleanup = """
-    echo "Stopping project containers..."
-    docker ps -a | grep "example_service" | awk '{print $$1}' | xargs -r docker stop
-
-    echo "Removing project containers..."
-    docker ps -a | grep "example_service" | awk '{print $$1}' | xargs -r docker rm
-
-    echo "Removing project images..."
-    docker images | grep "example_service" | awk '{print $$3}' | xargs -r docker rmi
-
-    echo "Cleanup of project containers complete!"
-"""
+# Run
+run_worker = "celery -A src:worker_app worker --pool=prefork --loglevel=info"
+run_dev = "uvicorn src:rest_app --host 0.0.0.0 --port 8000"

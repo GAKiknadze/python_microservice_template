@@ -42,10 +42,11 @@ python_microservice_template/
 ├── protobufs/                  # Proto files
 |   └── example.proto
 ├── tests/
-|   |   ├── e2e/                # End-to-end tests
-|   |   └── unit/               # Unit tests
+|   ├── e2e/                    # End-to-end tests
+|   └── unit/                   # Unit tests
+├── configs/
+|   └── config.example.yaml     # Configs
 ├── .dockerignore
-├── .env.example                # Environment variables (Example)
 ├── alembic.ini                 # Database migration settings
 ├── mypy.ini                    # MyPy settings
 ├── pytest.ini                  # PyTest settings
@@ -58,22 +59,32 @@ python_microservice_template/
 
 Make sure that the [poe](https://pypi.org/project/poethepoet/) installed.
 
-### Run tests
+### Code
+
+#### Format (ISort + Black)
 
 ```shell
-poe test -v tests/
+poe format
 ```
 
-### Generate proto
+#### Check (Mypy + Flake8)
+
+```shell
+poe check
+```
+
+### Tests
+
+#### Run
+
+```shell
+poe test
+```
+
+### gRPC
+
+#### Generate proto
 
 ```shell
 poe gen_proto protobufs/example.proto
-```
-
-### Cleanup project from Docker
-
-This command stops and deletes containers and deletes images related to this project.
-
-```shell
-poe docker_cleanup
 ```
