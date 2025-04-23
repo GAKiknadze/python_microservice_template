@@ -1,8 +1,8 @@
-# Python Microservice Template (DEV)
-
-**ALARM!!!** This project is under development and nothing is working here 👺
+# Python Microservice Template
 
 Unified python microservice template
+
+`This repository is just an example of a project structure with part of the configuration files that need to be customized for the project.`
 
 ## Project struct
 
